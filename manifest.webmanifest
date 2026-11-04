@@ -1,0 +1,17 @@
+{
+  "name": "Tudor Training",
+  "short_name": "Tudor Training",
+  "description": "Your personal workout planner and progress tracker.",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f3f6f6",
+  "theme_color": "#183747",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

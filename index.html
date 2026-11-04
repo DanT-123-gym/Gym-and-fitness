@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#183747">
+<meta name="description" content="Tudor Training — your personal workout planner and progress tracker.">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<title>Tudor Training</title>
+<style>
+:root{color-scheme:light dark;--bg:#f3f6f6;--card:#fff;--ink:#172b35;--muted:#61737a;--line:#dce5e6;--accent:#245968;--accent2:#dcefed;--good:#277b68;--warn:#9b6921}
+@media(prefers-color-scheme:dark){:root{--bg:#101a20;--card:#1a2931;--ink:#edf4f4;--muted:#a8b8bc;--line:#34464e;--accent:#5c9aaa;--accent2:#203b40;--good:#73c4a7;--warn:#e4b76a}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;padding-bottom:env(safe-area-inset-bottom)}
+button,input,select,textarea{font:inherit}button{cursor:pointer} .wrap{max-width:850px;margin:auto;padding:14px 14px 100px}
+header{background:linear-gradient(130deg,#142c3d,#285867);color:#fff;border-radius:20px;padding:20px;margin:8px 0 14px}
+.brand{font-size:11px;letter-spacing:2px;color:#c5dedb;font-weight:700}.brandtitle{font-size:29px;font-weight:850;letter-spacing:-1px;margin:5px 0}.sub{color:#d5e5e5;font-size:13px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:18px}.stat{background:#ffffff17;padding:10px;border-radius:11px}.stat strong{display:block;font-size:20px}.stat span{font-size:11px;color:#d6e5e4}
+nav{position:sticky;top:0;z-index:5;background:var(--bg);padding:6px 0 10px;display:grid;grid-template-columns:repeat(5,1fr);gap:5px}
+nav button{border:1px solid var(--line);background:var(--card);color:var(--muted);border-radius:10px;padding:10px 3px;font-size:11px;font-weight:700}
+nav button.active{background:var(--accent);border-color:var(--accent);color:white}
+.page{display:none}.page.active{display:block}.card{background:var(--card);border:1px solid var(--line);border-radius:15px;padding:15px;margin:10px 0}
+h2{font-size:20px;margin:0 0 5px}h3{font-size:16px;margin:0 0 7px}.muted{color:var(--muted)}.small{font-size:12px}.row{display:flex;align-items:center;justify-content:space-between;gap:10px}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:9px}.btn{border:0;background:var(--accent);color:white;border-radius:10px;padding:11px 13px;font-weight:700}.btn.secondary{background:transparent;color:var(--ink);border:1px solid var(--line)}.btn.soft{background:var(--accent2);color:var(--ink)}.btn.danger{background:#9a4038;color:white}.full{width:100%}
+.pill{display:inline-block;background:var(--accent2);border-radius:30px;padding:4px 9px;font-size:11px;color:var(--ink);font-weight:650}
+.day{display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-bottom:1px solid var(--line)}.day:last-child{border:0}
+.exercise{border:1px solid var(--line);border-radius:12px;padding:12px;margin:10px 0}.exercise.done{border-color:var(--good)}.exercise h3{margin-top:7px}
+input,select,textarea{width:100%;background:var(--bg);color:var(--ink);border:1px solid var(--line);border-radius:9px;padding:10px;min-width:0}textarea{resize:vertical;min-height:90px}
+label{font-size:12px;color:var(--muted);display:block}.set{border-top:1px solid var(--line);padding:10px 0}.setgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:7px 0}
+.bar{height:7px;background:var(--line);border-radius:9px;overflow:hidden}.bar>i{display:block;height:100%;background:var(--good);width:0}
+.metricgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}.metric{background:var(--bg);padding:12px;border-radius:11px}.metric strong{font-size:23px;display:block}
+.timer{font-size:55px;font-weight:800;text-align:center;font-variant-numeric:tabular-nums;margin:10px}
+.hidden{display:none!important}.listitem{padding:10px 0;border-bottom:1px solid var(--line)}.listitem:last-child{border:0}
+footer{text-align:center;color:var(--muted);font-size:11px;padding:20px}
+@media(min-width:650px){.wrap{padding:20px 22px 60px}.brandtitle{font-size:34px}nav button{font-size:13px}.card{padding:18px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+ <div class="brand">YOUR PERSONAL TRAINING COMPANION</div>
+ <div class="brandtitle">TUDOR TRAINING</div>
+ <div class="sub">Train smart. Track your progress. Recover well.</div>
+ <div class="stats"><div class="stat"><strong id="headerSets">0</strong><span>SETS LOGGED</span></div><div class="stat"><strong>2</strong><span>GYM SESSIONS</span></div><div class="stat"><strong>2</strong><span>RUN DAYS</span></div></div>
+</header>
+<nav aria-label="Main navigation">
+ <button class="active" data-page="home">WEEK</button><button data-page="workouts">TRAIN</button><button data-page="talk">TALK</button><button data-page="progress">PROGRESS</button><button data-page="tools">TOOLS</button>
+</nav>
+
+<section class="page active" id="home">
+ <div class="card">
+  <div class="row"><h2>Your weekly plan</h2><span class="pill">Flexible</span></div>
+  <p class="muted small">Upper-body priority, with room for your runs and other sports.</p>
+  <div class="day"><div><b>MONDAY</b><div class="muted small">Chest, back, biceps, triceps & abs</div></div><span class="pill">GYM A</span></div>
+  <div class="day"><div><b>TUESDAY</b><div class="muted small">Sport or recovery</div></div><span class="pill">FLEX</span></div>
+  <div class="day"><div><b>WEDNESDAY</b><div class="muted small">Shoulders, arms, legs & abs</div></div><span class="pill">GYM B</span></div>
+  <div class="day"><div><b>THURSDAY</b><div class="muted small">Your running day</div></div><span class="pill">RUN</span></div>
+  <div class="day"><div><b>FRIDAY</b><div class="muted small">Sport or recovery</div></div><span class="pill">FLEX</span></div>
+  <div class="day"><div><b>SATURDAY</b><div class="muted small">Your running day</div></div><span class="pill">RUN</span></div>
+  <div class="day"><div><b>SUNDAY</b><div class="muted small">Rest or gentle activity</div></div><span class="pill">REST</span></div>
+  <p class="muted small">Move gym days around fixtures and recovery. Avoid squeezing missed sessions together.</p>
+ </div>
+ <div class="card">
+  <h2>Quick start</h2><p class="muted small">Warm up first, then choose a session.</p>
+  <div class="grid2"><button class="btn" data-start="A">Start Gym A</button><button class="btn" data-start="B">Start Gym B</button></div>
+ </div>
+ <div class="card"><h3>Today's check-in</h3><p class="muted small">Tell the app how you're feeling before you train.</p><button class="btn soft full" data-goto="talk">Check soreness & adjust plan</button></div>
+</section>
+
+<section class="page" id="workouts">
+ <div class="card"><h2>Your workouts</h2><p class="muted small">Log each set separately. Your saved results feed the progress dashboard and next-session reference.</p><div class="grid2"><button class="btn" data-start="A">GYM A · Upper body</button><button class="btn" data-start="B">GYM B · Arms & core</button></div></div>
+ <div class="card hidden" id="sessionCard">
+  <div class="row"><div><span class="pill" id="sessionTag"></span><h2 id="sessionTitle" style="margin-top:8px"></h2><p class="muted small" id="sessionMeta"></p></div><button class="btn secondary" id="closeSession">Close</button></div>
+  <div class="row small muted" style="margin:12px 0 6px"><span id="sessionCount"></span><span id="sessionPct"></span></div><div class="bar"><i id="sessionBar"></i></div>
+  <div id="exerciseList"></div>
+  <button class="btn full" id="finishSession">Finish session</button><p class="muted small" id="finishMessage"></p>
+ </div>
+ <div class="card"><h3>Training guidance</h3><p class="muted small">Start with manageable weights and controlled technique. A sensible starting point is 2 working sets per exercise. Leave some reps in reserve rather than lifting to exhaustion. Rest 60–120 seconds, longer if needed.</p></div>
+</section>
+
+<section class="page" id="talk">
+ <div class="card">
+  <h2>Talk to Tudor Training</h2><p class="muted small">Describe soreness, tiredness or how sport has affected you. Voice input works in supported browsers; typing is always available.</p>
+  <textarea id="voiceText" placeholder="For example: My biceps and forearms are sore after sport, but my chest feels fine."></textarea>
+  <div class="grid2" style="margin-top:9px"><button class="btn" id="micBtn">🎙 Speak</button><button class="btn secondary" id="analyseBtn">Analyse message</button></div>
+  <p class="muted small" id="voiceStatus" aria-live="polite">Microphone permission may be required. You can also use the microphone on your iPhone keyboard.</p>
+ </div>
+ <div class="card hidden" id="adjustment">
+  <h3>Suggested adjustment</h3><p class="muted small" id="adjustSummary"></p>
+  <b class="small">Areas to avoid training directly</b><div id="avoidTags" style="display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 14px"></div>
+  <b class="small">Possible session for today</b><div id="adjustExercises" style="margin-top:8px"></div>
+  <button class="btn full" id="saveAdjustment" style="margin-top:12px">Save adjustment to history</button><p class="muted small" id="adjustSaved"></p>
+ </div>
+ <div class="card"><h3>Safety first</h3><p class="muted small">This is a planning aid, not a medical assessment. Don't train through pain or use exercise swaps to work around a possible injury. For sharp, worsening or unusual pain, swelling, weakness or an injury, stop and speak to a parent/guardian and an appropriate health professional. If unsure, rest.</p></div>
+</section>
+
+<section class="page" id="progress">
+ <div class="card"><h2>Your progress</h2><p class="muted small">All workout sets saved on this device appear here.</p><div class="metricgrid"><div class="metric"><strong id="totalSets">0</strong><span class="muted small">Sets logged</span></div><div class="metric"><strong id="exerciseCount">0</strong><span class="muted small">Exercises logged</span></div><div class="metric"><strong id="sessionCountAll">0</strong><span class="muted small">Sessions recorded</span></div><div class="metric"><strong id="adjustCount">0</strong><span class="muted small">Plan adjustments</span></div></div></div>
+ <div class="card"><h3>Exercise records</h3><div id="records" class="muted small">Log some sets to see your progress.</div></div>
+ <div class="card"><h3>Recent training history</h3><div id="history" class="muted small">No sessions recorded yet.</div></div>
+ <div class="card"><h3>Plan adjustment history</h3><div id="adjustHistory" class="muted small">No adjustments saved yet.</div></div>
+ <div class="card"><h3>Backup your data</h3><p class="muted small">Export a backup regularly. Import it if you move to another device or browser.</p><div class="grid2"><button class="btn" id="exportBtn">Export backup</button><button class="btn secondary" id="importBtn">Import backup</button></div><input type="file" id="importFile" accept="application/json" class="hidden"></div>
+ <div class="card"><h3>Clear data</h3><p class="muted small">This permanently removes the saved history from this browser.</p><button class="btn danger" id="clearData">Clear all app data</button></div>
+</section>
+
+<section class="page" id="tools">
+ <div class="card"><h2>Rest timer</h2><p class="muted small">Choose a rest period between sets.</p><div class="grid2"><button class="btn secondary" data-seconds="60">60 sec</button><button class="btn secondary" data-seconds="90">90 sec</button><button class="btn secondary" data-seconds="120">120 sec</button><button class="btn secondary" data-seconds="180">180 sec</button></div><div class="timer" id="timerDisplay">01:30</div><p class="muted small" style="text-align:center" id="timerStatus">Ready when you are</p><div class="grid2"><button class="btn" id="timerStart">Start</button><button class="btn secondary" id="timerReset">Reset</button></div></div>
+ <div class="card"><h2>Equipment directory</h2><p class="muted small">A working exercise directory based on equipment categories publicly associated with the centre. It is not a verified inventory of every machine or model. Confirm equipment and attachments in person.</p><input id="machineSearch" placeholder="Search equipment..." style="margin:8px 0"><div id="machineList"></div><h3 style="margin-top:15px">Add a machine to your own notes</h3><input id="customMachine" placeholder="Machine or attachment name" style="margin:8px 0"><button class="btn full" id="addMachine">Add to my list</button><div id="customMachines" class="muted small" style="margin-top:8px"></div></div>
+ <div class="card"><h3>Install this app</h3><p class="muted small">On iPhone, open the hosted app in Safari, tap Share, choose Add to Home Screen, then Add. See the included README for publishing instructions. A secure HTTPS website is required for offline app installation.</p><button class="btn secondary full" id="installBtn">Install app (if supported)</button></div>
+</section>
+<footer>TUDOR TRAINING · Your training data stays in this browser unless you export it.</footer>
+</div>
+<script>
+const $=id=>document.getElementById(id);
+const KEY='tudor-training-v1';
+const defaultState={logs:{},sessions:[],adjustments:[],notes:[],customMachines:[]};
+let state=loadState(),activeWorkout=null,adjustmentDraft=null;
+function loadState(){try{return {...defaultState,...JSON.parse(localStorage.getItem(KEY)||'{}')}}catch(e){return structuredClone(defaultState)}}
+function persist(){localStorage.setItem(KEY,JSON.stringify(state));renderAll()}
+const workouts={
+ A:{title:'Chest, Back & Arms',meta:'Approx. 45–55 minutes · upper-body priority',items:[
+ {name:'Chest press machine',muscle:'Chest',sets:2,reps:'8–12',how:'Sit with your back supported. Press forward smoothly and return slowly.'},
+ {name:'Lat pulldown',muscle:'Back',sets:2,reps:'8–12',how:'Pull the bar towards your upper chest. Keep your torso steady; never pull behind your neck.'},
+ {name:'Seated cable row',muscle:'Back',sets:2,reps:'8–12',how:'Pull towards your lower ribs and return under control.'},
+ {name:'Dumbbell bicep curl',muscle:'Biceps',sets:2,reps:'10–12',how:'Keep elbows near your sides. Avoid swinging.'},
+ {name:'Hammer curl',muscle:'Biceps & forearms',sets:2,reps:'10–12',how:'Keep palms facing each other and wrists neutral.'},
+ {name:'Cable triceps pushdown',muscle:'Triceps',sets:2,reps:'10–12',how:'Keep elbows tucked and extend smoothly.'},
+ {name:'Dead bug',muscle:'Abdominals',sets:2,reps:'8 each side',how:'Move opposite arm and leg slowly while keeping your torso stable.'}
+ ]},
+ B:{title:'Shoulders, Arms, Legs & Abs',meta:'Approx. 45–55 minutes · upper-body priority',items:[
+ {name:'Shoulder press machine',muscle:'Shoulders',sets:2,reps:'8–12',how:'Set handles around shoulder level. Press without forcing the range.'},
+ {name:'Dumbbell lateral raise',muscle:'Shoulders',sets:2,reps:'10–12',how:'Use light weights. Raise to a comfortable height without swinging.'},
+ {name:'Cable bicep curl',muscle:'Biceps',sets:2,reps:'10–12',how:'Keep elbows close to your body and lower slowly.'},
+ {name:'Triceps extension',muscle:'Triceps',sets:2,reps:'10–12',how:'Use a suitable light weight and comfortable range.'},
+ {name:'Light reverse curl',muscle:'Forearms',sets:1,reps:'10–12',how:'Use a light weight and controlled movement; stop if wrists feel uncomfortable.'},
+ {name:'Leg press machine',muscle:'Legs',sets:2,reps:'10–12',how:'Use a comfortable range, keep your back supported and knees aligned with feet.'},
+ {name:'Reverse crunch',muscle:'Abdominals',sets:2,reps:'8–12',how:'Bring knees gently towards your chest with controlled movement.'}
+ ]}};
+const muscleWords={'Biceps':['bicep','biceps'],'Triceps':['tricep','triceps'],'Forearms':['forearm','forearms','wrist','wrists'],'Shoulders':['shoulder','shoulders'],'Chest':['chest','pec'],'Back':['back','lat','lats'],'Abdominals':['abs','abdominal','core'],'Legs':['leg','legs','quads','hamstring','calves']};
+const alternatives={'Chest':['Chest press machine','Dumbbell chest press'],'Back':['Lat pulldown','Seated cable row','Dumbbell row'],'Biceps':['Dumbbell curl','Cable curl','Hammer curl'],'Triceps':['Cable pushdown','Dumbbell triceps extension'],'Forearms':['Light reverse curl','Light wrist curl'],'Shoulders':['Shoulder press machine','Light lateral raise'],'Abdominals':['Dead bug','Reverse crunch'],'Legs':['Leg press','Leg curl','Bodyweight squat']};
+function navigate(id){document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active',p.id===id));document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===id));if(id==='progress')renderProgress();window.scrollTo({top:0,behavior:'smooth'})}
+document.querySelectorAll('[data-page]').forEach(b=>b.addEventListener('click',()=>navigate(b.dataset.page)));
+document.querySelectorAll('[data-goto]').forEach(b=>b.addEventListener('click',()=>navigate(b.dataset.goto)));
+function startWorkout(id){activeWorkout=id;navigate('workouts');$('sessionCard').classList.remove('hidden');renderWorkout();$('sessionCard').scrollIntoView({behavior:'smooth',block:'start'})}
+document.querySelectorAll('[data-start]').forEach(b=>b.addEventListener('click',()=>startWorkout(b.dataset.start)));
+$('closeSession').onclick=()=>{$('sessionCard').classList.add('hidden');activeWorkout=null};
+function logKey(w,i){return w+'_'+i}
+function getLogs(w,i){return state.logs[logKey(w,i)]||[]}
+function renderWorkout(){if(!activeWorkout)return;let w=workouts[activeWorkout],done=w.items.filter((e,i)=>getLogs(activeWorkout,i).length>=e.sets).length;
+$('sessionTag').textContent='GYM '+activeWorkout;$('sessionTitle').textContent=w.title;$('sessionMeta').textContent=w.meta;$('sessionCount').textContent=done+' / '+w.items.length+' exercises completed';$('sessionPct').textContent=Math.round(done/w.items.length*100)+'%';$('sessionBar').style.width=(done/w.items.length*100)+'%';$('finishMessage').textContent='';
+$('exerciseList').innerHTML=w.items.map((e,i)=>{let logs=getLogs(activeWorkout,i),last=logs.at(-1);return `<article class="exercise ${logs.length>=e.sets?'done':''}"><div class="row"><div><span class="pill">${e.muscle}</span><h3>${e.name}</h3><div class="muted small">${e.sets} sets · ${e.reps} reps</div></div><span class="pill">${logs.length}/${e.sets}</span></div><details class="small muted" style="margin:8px 0"><summary>Technique instructions</summary><p>${e.how}</p></details>${Array.from({length:e.sets},(_,n)=>{let l=logs[n];return `<div class="set"><div class="row"><b class="small">SET ${n+1}</b><span class="muted small">${l?'Saved':'Not saved'}</span></div><div class="setgrid"><label>Weight (kg)<input type="number" min="0" max="500" step="0.5" id="weight-${i}-${n}" placeholder="e.g. 10" value="${l?l.weight:(last?last.weight:'')}"></label><label>Reps completed<input type="number" min="1" max="100" step="1" id="reps-${i}-${n}" placeholder="e.g. 10" value="${l?l.reps:''}"></label></div><button class="btn secondary small saveSet" data-i="${i}" data-n="${n}">${l?'Update set':'Save set'}</button></div>`}).join('')}<p class="muted small">Previous session: ${last?last.weight+' kg × '+last.reps+' reps':'No saved results yet'}</p></article>`}).join('');
+document.querySelectorAll('.saveSet').forEach(b=>b.addEventListener('click',()=>{let i=+b.dataset.i,n=+b.dataset.n,weight=Number($('weight-'+i+'-'+n).value),reps=Number($('reps-'+i+'-'+n).value);if(!Number.isFinite(weight)||weight<0||!Number.isInteger(reps)||reps<1||reps>100){alert('Enter a valid weight and whole-number rep count.');return}let k=logKey(activeWorkout,i);state.logs[k]??=[];state.logs[k][n]={weight,reps,date:new Date().toISOString().slice(0,10)};persist();renderWorkout()}))}
+$('finishSession').onclick=()=>{let w=workouts[activeWorkout],count=w.items.filter((e,i)=>getLogs(activeWorkout,i).length>=e.sets).length;state.sessions.push({workout:activeWorkout,title:w.title,date:new Date().toISOString().slice(0,10),completed:count,total:w.items.length});persist();$('finishMessage').textContent=count===w.items.length?'Session fully logged. Great work!':count+' exercises completed. You can return to finish other sets.'};
+function renderProgress(){let all=Object.entries(state.logs),sets=all.flatMap(([k,v])=>v.map(x=>({...x,key:k}))),sessions=state.sessions;$('totalSets').textContent=sets.length;$('headerSets').textContent=sets.length;$('exerciseCount').textContent=all.filter(x=>x[1].length).length;$('sessionCountAll').textContent=sessions.length;$('adjustCount').textContent=state.adjustments.length;
+let rows=all.filter(x=>x[1].length).map(([k,v])=>{let id=k.split('_'),w=workouts[id[0]],ex=w?.items[+id[1]],last=v.at(-1),best=v.reduce((a,b)=>b.weight>a.weight?b:a,v[0]);return `<div class="listitem"><b>${ex?ex.name:k}</b><div class="muted small">Latest: ${last.weight} kg × ${last.reps} reps · Highest logged weight: ${best.weight} kg</div></div>`});$('records').innerHTML=rows.join('')||'Log some sets to see your records.';
+$('history').innerHTML=sessions.slice(-12).reverse().map(s=>`<div class="listitem"><b>${s.title}</b><div class="muted small">${s.date} · ${s.completed}/${s.total} exercises fully logged</div></div>`).join('')||'No sessions recorded yet.';
+$('adjustHistory').innerHTML=state.adjustments.slice(-10).reverse().map(a=>`<div class="listitem"><b>${a.date}</b><div class="muted small">${a.avoid.join(', ')||'No specific muscle area'} · ${a.message}</div></div>`).join('')||'No adjustments saved yet.'}
+$('analyseBtn').onclick=analyseMessage;
+function analyseMessage(){let msg=$('voiceText').value.trim().toLowerCase();if(!msg){$('voiceStatus').textContent='Please type or dictate how you feel first.';return}let avoid=Object.entries(muscleWords).filter(([m,words])=>words.some(w=>msg.includes(w))).map(x=>x[0]);let neg=/not sore|no soreness|feel fine|feels fine|no pain|without pain|isn't sore/;if(neg.test(msg))avoid=avoid.filter(m=>!muscleWords[m].some(w=>msg.includes(w)));let concerning=['sharp pain','injury','injured','swelling','swollen','numb','weakness','severe pain','getting worse'].some(x=>msg.includes(x));let general=msg.includes('whole body')||msg.includes('everything is sore');if(general)avoid=Object.keys(muscleWords);
+let suggested=Object.entries(alternatives).filter(([m])=>!avoid.includes(m)).flatMap(([m,items])=>items.slice(0,1).map(name=>({m,name})));
+adjustmentDraft={message:msg,avoid,concerning,suggested};$('adjustment').classList.remove('hidden');$('adjustSummary').textContent=concerning?'Your message mentions a possible injury or concerning symptom. Do not use an adjusted workout to work around it. Stop the affected activity and speak with a parent/guardian and an appropriate health professional.':avoid.length?'The app has identified '+avoid.join(', ').toLowerCase()+' as areas to leave out of direct training for now. These suggestions are not a diagnosis.':'No specific sore muscle was identified. If you feel well, follow your planned session and adjust if anything feels uncomfortable.';
+$('avoidTags').innerHTML=avoid.map(m=>`<span class="pill">${m}</span>`).join('')||'<span class="pill">No specific area identified</span>';$('adjustExercises').innerHTML=concerning?'<p class="muted small">No replacement workout suggested. Prioritise appropriate advice and recovery.</p>':suggested.length?suggested.map(x=>`<div class="listitem"><b>${x.name}</b><div class="muted small">${x.m}</div></div>`).join(''):'Rest may be the best option today.';$('adjustSaved').textContent='';$('adjustment').scrollIntoView({behavior:'smooth',block:'start'})}
+$('saveAdjustment').onclick=()=>{if(!adjustmentDraft)return;state.adjustments.push({...adjustmentDraft,date:new Date().toISOString().slice(0,10)});persist();$('adjustSaved').textContent='Adjustment saved to your progress history.'};
+$('micBtn').onclick=()=>{let SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR){$('voiceStatus').textContent='Voice recognition is not supported in this browser. Use the microphone on your iPhone keyboard to dictate into the text box.';return}let rec=new SR();rec.lang='en-GB';rec.interimResults=false;rec.onstart=()=>$('voiceStatus').textContent='Listening…';rec.onresult=e=>{$('voiceText').value=e.results[0][0].transcript;$('voiceStatus').textContent='Speech captured. Check the text, then tap Analyse message.'};rec.onerror=()=>$('voiceStatus').textContent='Could not access voice input. Check microphone permission or use keyboard dictation.';rec.onend=()=>{};try{rec.start()}catch(e){$('voiceStatus').textContent='Voice input could not start. Try again or use dictation.'}};
+let timerDuration=90,remaining=90,timer=null;
+function drawTimer(){$('timerDisplay').textContent=String(Math.floor(remaining/60)).padStart(2,'0')+':'+String(remaining%60).padStart(2,'0')}
+document.querySelectorAll('[data-seconds]').forEach(b=>b.onclick=()=>{clearInterval(timer);timer=null;timerDuration=+b.dataset.seconds;remaining=timerDuration;drawTimer();$('timerStatus').textContent='Rest period selected';$('timerStart').textContent='Start'});
+$('timerStart').onclick=()=>{if(timer){clearInterval(timer);timer=null;$('timerStart').textContent='Resume';$('timerStatus').textContent='Paused';return}if(remaining<=0)remaining=timerDuration;$('timerStart').textContent='Pause';$('timerStatus').textContent='Resting…';timer=setInterval(()=>{remaining--;drawTimer();if(remaining<=0){clearInterval(timer);timer=null;$('timerStart').textContent='Start again';$('timerStatus').textContent='Rest complete'}},1000)};
+$('timerReset').onclick=()=>{clearInterval(timer);timer=null;remaining=timerDuration;drawTimer();$('timerStart').textContent='Start';$('timerStatus').textContent='Ready when you are'};
+const machines=[['Cardio','Treadmills, exercise bikes, recumbent bikes, cross trainers and rowing machines'],['Chest','Chest press machine'],['Shoulders','Shoulder press machine'],['Back','Cable stations and pulldown / row attachments where available'],['Legs','Leg press, leg curl, leg extension, adductor and abductor machines'],['Free weights','Dumbbells and weight-training equipment'],['Other','Swiss balls and small fitness equipment']];
+function renderMachines(){let q=$('machineSearch').value.toLowerCase();$('machineList').innerHTML=machines.filter(m=>m.join(' ').toLowerCase().includes(q)).map(m=>`<div class="listitem"><b>${m[0]}</b><div class="muted small">${m[1]}</div></div>`).join('')||'<p class="muted small">No matching categories.</p>';$('customMachines').innerHTML=state.customMachines.map(x=>`<div class="listitem">• ${escapeHtml(x)}</div>`).join('')}
+function escapeHtml(s){return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+$('machineSearch').oninput=renderMachines;$('addMachine').onclick=()=>{let v=$('customMachine').value.trim();if(!v)return;state.customMachines.push(v);$('customMachine').value='';persist();renderMachines()};
+$('exportBtn').onclick=()=>{let blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='tudor-training-backup.json';a.click();URL.revokeObjectURL(url)};
+$('importBtn').onclick=()=>$('importFile').click();$('importFile').onchange=async e=>{let f=e.target.files[0];if(!f)return;try{let v=JSON.parse(await f.text());if(!v.logs||!Array.isArray(v.sessions))throw Error();if(confirm('Import this backup and replace the data currently in this browser?')){state={...defaultState,...v};persist();renderProgress();renderMachines();alert('Backup imported.')}}catch(err){alert('That backup file could not be read.')}e.target.value=''};
+$('clearData').onclick=()=>{if(confirm('Permanently clear all Tudor Training data on this browser? Export a backup first if you want to keep it.')){state=structuredClone(defaultState);persist();renderProgress();renderMachines();if(activeWorkout)renderWorkout()}};
+let installPrompt=null;window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();installPrompt=e});$('installBtn').onclick=async()=>{if(installPrompt){installPrompt.prompt();await installPrompt.userChoice;installPrompt=null}else alert('On iPhone: open this site in Safari, tap Share, choose Add to Home Screen, then Add. The app must be hosted on HTTPS first.')};
+function renderAll(){renderProgress();renderMachines();$('headerSets').textContent=Object.values(state.logs).flat().length}
+renderAll();drawTimer();
+if('serviceWorker'in navigator&&location.protocol.startsWith('http'))window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+</script>
+</body>
+</html>
