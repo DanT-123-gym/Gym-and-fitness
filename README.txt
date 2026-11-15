@@ -1,39 +1,41 @@
-# Tudor Training — standalone app
+TUDOR TRAINING — UPDATED APP PACKAGE
 
-## What is included
-- Workout planner with two upper-body-priority sessions.
-- Set-by-set weight and rep logging.
-- Shared progress dashboard and workout history.
-- Voice input where the browser supports SpeechRecognition, plus typed input.
-- Soreness check-in and conservative workout-adjustment suggestions.
-- Rest timer.
-- Equipment category directory and personal machine notes.
-- JSON backup export/import.
-- PWA manifest and service worker for installability and offline app shell.
+CONTENTS
+- index.html: the app and its features
+- manifest.webmanifest: installable app metadata
+- sw.js: offline cache (version bumped for this update)
+- icon.svg: app icon
 
-## Important limitations
-- The Tudor Grange equipment directory is a starter list of equipment categories, not a verified live inventory of every machine or attachment.
-- Voice recognition availability varies by browser/device. On iPhone, Safari may not expose browser speech recognition consistently; keyboard dictation is an alternative.
-- App data is stored locally in the browser on that device. Export a JSON backup regularly. It does not automatically sync between devices.
-- This is a workout organiser, not a medical tool. Pain or possible injury should not be treated by simply swapping exercises.
+IMPORTANT DATA NOTE
+Workout history is stored in local browser storage under the existing key tudor-training-v1. This update keeps that key and adds new optional fields, so the existing browser data is intended to remain compatible. Still export a backup from PBs before updating. Local browser data does not automatically sync between devices.
 
-## Publish it so it can be installed on iPhone
-A PWA needs to be served from a secure HTTPS website. You cannot install the ZIP directly as a Home Screen app.
+FEATURES IN THIS UPDATE
+- Six main tabs: Week, Train, Talk, PBs, Sport and Home
+- Add one-off or weekly repeating calendar entries for gym, runs, sport and rest; edit and delete entries
+- Personal best summary based on logged weights/reps
+- Equipment selection saved in the Home generator, plus custom equipment notes
+- Home workout builder filters exercises against selected equipment and chosen focus/time/effort
+- Home workouts can be opened in Train and logged using the existing set logger
+- Exercise like/dislike feedback is saved and influences future home workout selection
+- Rest timer starts automatically after a saved set when another set remains
+- Existing Talk assistant, gym sessions, training history, export/import and equipment directory retained
 
-### Simple route: GitHub Pages
-1. On a computer, create/sign in to a GitHub account.
-2. Create a new repository, for example `tudor-training`.
-3. Upload `index.html`, `manifest.webmanifest`, `sw.js`, and `icon.svg` from this folder to the repository root.
-4. In the repository, open **Settings → Pages**.
-5. Under Build and deployment, choose **Deploy from a branch**, select `main` and `/ (root)`, then Save.
-6. Wait for GitHub Pages to publish the site. Open the URL shown in Pages settings.
-7. On your iPhone, open that URL in **Safari**.
-8. Tap the Share button → **Add to Home Screen** → optionally enable **Open as Web App** if shown → **Add**.
+GITHUB PAGES UPDATE GUIDE
+1. Open the current app and go to PBs. Choose Export backup and save the JSON file somewhere safe.
+2. Download and extract this ZIP on your computer. Open the tudor_training_app folder.
+3. Open https://github.com/dant-123-gym/Gym-and-fitness
+4. Check that you are on the main branch. Choose Add file, then Upload files.
+5. Upload the five files from tudor_training_app directly into the repository root (not inside a new folder). Allow GitHub to replace the existing files with the same names.
+6. Enter the commit message: Update Tudor Training. Choose Commit changes.
+7. Wait for GitHub Pages to publish, then open https://dant-123-gym.github.io/Gym-and-fitness/ and refresh.
+8. On iPhone, close the installed app fully and reopen it. If it still shows the old version, open the website in Safari and refresh before reopening the Home Screen app.
+9. Check the Week, Train, Talk, PBs, Sport and Home tabs. Confirm old workout history is still visible before importing any backup.
 
-You can also use another static HTTPS host. Keep all four files together in the published site.
+ROLLBACK
+The existing version can be restored from GitHub's commit history if needed. Do not delete the repository. Keep your exported JSON backup.
 
-## Using it
-- Open Train, choose Gym A or Gym B, enter the actual weight and reps for each set, then Save set.
-- Talk lets you type or dictate how you feel. Review the suggested adjustment before using it.
-- Tools contains the rest timer and equipment directory.
-- Progress shows saved results and lets you export/import a backup.
+LIMITATIONS
+- Calendar events and exercise preferences are stored locally in this browser.
+- The equipment directory is a broad category guide, not a verified complete inventory of Tudor Grange machines.
+- Home exercise selection is rule-based; custom equipment names are saved for your reference, but only equipment types represented in the exercise library can currently unlock matching exercises.
+- PBs are calculated from the sets you have logged; they are not independently verified strength standards.
